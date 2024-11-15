@@ -27,31 +27,61 @@ class SquareAnimation extends StatefulWidget {
   }
 }
 
+enum BoxPos {
+    left,
+    center,
+    right
+}
 class SquareAnimationState extends State<SquareAnimation> {
   static const _squareSize = 50.0;
+  BoxPos _boxPos = BoxPos.center;
+  bool _animating = false;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: _squareSize,
-          height: _squareSize,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            border: Border.all(),
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: AnimatedAlign(
+                alignment: switch (_boxPos) {
+                  BoxPos.center => Alignment.center,
+                  BoxPos.left => Alignment.centerLeft,
+                  BoxPos.right => Alignment.centerRight,
+                },
+                duration: const Duration(seconds: 1),
+                onEnd: () => setState(() => _animating = false),
+                child: Container(
+                  width: _squareSize,
+                  height: _squareSize,
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    border: Border.all(),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         Row(
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _animating || _boxPos == BoxPos.left ? null : 
+                () => setState(() {
+                  _boxPos = BoxPos.left;
+                  _animating = true;
+                }),
               child: const Text('Right'),
             ),
             const SizedBox(width: 8),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _animating || _boxPos == BoxPos.right ? null :
+                () => setState(() {
+                  _boxPos = BoxPos.right;
+                  _animating = true;
+                }),
               child:const Text('Left'),
             ),
           ],
