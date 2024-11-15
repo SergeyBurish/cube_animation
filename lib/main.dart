@@ -73,7 +73,7 @@ class SquareAnimationState extends State<SquareAnimation> {
                   _boxPos = BoxPos.left;
                   _animating = true;
                 }),
-              child: const Text('Right'),
+              child: const Text('Left'),
             ),
             const SizedBox(width: 8),
             ElevatedButton(
@@ -82,7 +82,7 @@ class SquareAnimationState extends State<SquareAnimation> {
                   _boxPos = BoxPos.right;
                   _animating = true;
                 }),
-              child:const Text('Left'),
+              child:const Text('Right'),
             ),
           ],
         ),
